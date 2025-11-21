@@ -2,7 +2,7 @@
 # - module "cosmos" (outputs `account_id`)
 
 module "cosmos_diagnostics" {
-  source = "github.com/GoCHarrbra/azurerm-diagnostics-to-law.git?ref=v0.2.0"
+  source = "github.com/GoCHarrbra/azurerm-diagnostics-to-law.git?ref=v0.4.0"
 
   name               = var.cosmos_diag.name
   target_resource_id = module.cosmos.account_id
