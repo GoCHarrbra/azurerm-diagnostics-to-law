@@ -19,7 +19,7 @@ module "cae_diagnostics" {
   source = "github.com/GoCHarrbra/azurerm-diagnostics-to-law.git?ref=v0.1.0"
 
   name               = var.cae_diag.name
-  target_resource_id = local.cae_id                       # derived from containerapps module outputs
+  target_resource_id = var.ce_diag.target_resource_id
   law_resource_id    = module.foundation.law_id           # from foundation
 
   include_log_categories    = var.cae_diag.include_log_categories
