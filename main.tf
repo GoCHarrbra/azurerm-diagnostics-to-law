@@ -4,21 +4,19 @@ resource "azurerm_monitor_diagnostic_setting" "this" {
   log_analytics_workspace_id = var.law_resource_id
 
   # Logs – caller passes the exact category names.
-  # If the list is empty, no log blocks are created.
+  # If the list is empty, no log blocks are created (caller's responsibility).
   dynamic "enabled_log" {
     for_each = toset(var.include_log_categories)
     content {
       category = enabled_log.value
-      # retention_policy removed (deprecated)
     }
   }
 
-  # Metrics – same idea, caller passes category names (e.g. "AllMetrics").
-  dynamic "metric" {
+  # Metrics – use the new enabled_metric block (not the deprecated metric block).
+  dynamic "enabled_metric" {
     for_each = toset(var.include_metric_categories)
     content {
-      category = metric.value
-      # retention_policy removed (deprecated)
+      category = enabled_metric.value
     }
   }
 }
