@@ -3,12 +3,20 @@ data "azurerm_monitor_diagnostic_categories" "this" {
 }
 
 locals {
-  logs_all    = toset(data.azurerm_monitor_diagnostic_categories.this.logs)
+  # New schema in azurerm v4.x:
+  # - log_category_types: list of log category names
+  # - metrics: list of metric category names
+  logs_all    = toset(data.azurerm_monitor_diagnostic_categories.this.log_category_types)
   metrics_all = toset(data.azurerm_monitor_diagnostic_categories.this.metrics)
 
-  # If caller passes empty list, fall back to "all"; else use provided filters.
-  logs_effective    = length(var.include_log_categories)    > 0 ? toset(var.include_log_categories)    : local.logs_all
-  metrics_effective = length(var.include_metric_categories) > 0 ? toset(var.include_metric_categories) : local.metrics_all
+  # If caller passes an empty list, we fall back to "all" for that type.
+  logs_effective = length(var.include_log_categories) > 0
+    ? toset(var.include_log_categories)
+    : local.logs_all
+
+  metrics_effective = length(var.include_metric_categories) > 0
+    ? toset(var.include_metric_categories)
+    : local.metrics_all
 }
 
 resource "azurerm_monitor_diagnostic_setting" "this" {
@@ -20,7 +28,10 @@ resource "azurerm_monitor_diagnostic_setting" "this" {
     for_each = local.logs_effective
     content {
       category = enabled_log.value
-      retention_policy { enabled = false }
+
+      retention_policy {
+        enabled = false
+      }
     }
   }
 
@@ -28,7 +39,10 @@ resource "azurerm_monitor_diagnostic_setting" "this" {
     for_each = local.metrics_effective
     content {
       category = metric.value
-      retention_policy { enabled = false }
+
+      retention_policy {
+        enabled = false
+      }
     }
   }
 }

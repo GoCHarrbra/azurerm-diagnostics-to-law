@@ -9,7 +9,7 @@ locals {
 }
 
 module "cae_diagnostics" {
-  source = "github.com/GoCHarrbra/azurerm-diagnostics-to-law.git?ref=v0.1.0"
+  source = "github.com/GoCHarrbra/azurerm-diagnostics-to-law.git?ref=v0.2.0"
 
   name               = var.cae_diag.name
   target_resource_id = local.cae_id                       # derived from containerapps module outputs
