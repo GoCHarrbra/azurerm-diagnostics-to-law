@@ -16,7 +16,7 @@ variable "cae_diag" {
 }
 
 module "cae_diagnostics" {
-  source = "github.com/GoCHarrbra/azurerm-diagnostics-to-law.git?ref=v0.6.0"
+  source = "github.com/GoCHarrbra/azurerm-diagnostics-to-law.git?ref=v0.7.0"
 
   name               = var.cae_diag.name
   target_resource_id = var.ce_diag.target_resource_id
@@ -27,3 +27,4 @@ module "cae_diagnostics" {
 
   depends_on = [module.foundation]
 }
+
