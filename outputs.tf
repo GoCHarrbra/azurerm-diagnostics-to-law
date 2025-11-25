@@ -25,5 +25,5 @@ output "enabled_log_categories" {
 
 output "enabled_metric_categories" {
   description = "Metric categories enabled by this setting."
-  value       = [for m in azurerm_monitor_diagnostic_setting.this.metric : m.category]
+  value       = [for m in azurerm_monitor_diagnostic_setting.this.enabled_metric : m.category]
 }
